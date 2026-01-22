@@ -15,12 +15,12 @@ TESTCOVER_DIR = ./htmlconv
 DEFINES =
 INCLUDES += -I $(INC_DIR)
 CFLAGS += 
-CPPFLAGS += -std=c++17
+CPPFLAGS += -std=c++20
 LDFLAGS = 
 
 TEST_CFLAGS = $(CFLAGS) -O0 -g --coverage
 TEST_CPPFLAGS = $(CPPFLAGS) -fno-inline
-TEST_LDFLAGS = $(LDFLAGS) -lgtest -lgtest_main -lpthread
+TEST_LDFLAGS = $(LDFLAGS) -lgtest_main -lgtest  -lpthread
 
 
 # test object files
