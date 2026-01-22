@@ -1,0 +1,16 @@
+# build outputs
+bin/
+obj/
+lib/
+testbin/
+testobj/
+htmlconv/
+
+# coverage files
+*.gcda
+*.gcno
+*.gcov
+
+# accidental files
+DEnd
+DSource
