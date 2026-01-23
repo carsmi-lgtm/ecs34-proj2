@@ -27,8 +27,8 @@ TEST_LDFLAGS = $(LDFLAGS) -lgtest_main -lgtest  -lpthread
 TEST_OBJ_FILES_STRUTILS = $(TESTOBJ_DIR)/StringUtilsTest.o $(TESTOBJ_DIR)/StringUtils.o
 TEST_OBJ_FILES_STRDTASRC = $(TESTOBJ_DIR)/StringDataSourceTest.o $(TESTOBJ_DIR)/StringDataSource.o
 TEST_OBJ_FILES_STRDTASINK = $(TESTOBJ_DIR)/StringDataSinkTest.o $(TESTOBJ_DIR)/StringDataSink.o
-TEST_OBJ_FILES_DSV = $(TESTOBJ_DIR)/DSVTest.o $(TESTOBJ_DIR)/DSVReader.o $(TESTOBJ_DIR)/DSVWriter.o
-TEST_OBJ_FILES_XML = $(TESTOBJ_DIR)/XMLTest.o $(TESTOBJ_DIR)/XMLReader.o $(TESTOBJ_DIR)/XMLWriter.o
+TEST_OBJ_FILES_DSV = $(TESTOBJ_DIR)/DSVTest.o $(TESTOBJ_DIR)/DSVReader.o $(TESTOBJ_DIR)/DSVWriter.o $(TESTOBJ_DIR)/StringDataSource.o $(TESTOBJ_DIR)/StringDataSink.o
+TEST_OBJ_FILES_XML = $(TESTOBJ_DIR)/XMLTest.o $(TESTOBJ_DIR)/XMLReader.o $(TESTOBJ_DIR)/XMLWriter.o $(TESTOBJ_DIR)/StringDataSource.o $(TESTOBJ_DIR)/StringDataSink.o
 
 # test executables
 TEST_TARGET_STRUTILS = $(TESTBIN_DIR)/teststrutils
@@ -71,48 +71,48 @@ $(TEST_TARGET_XML): $(TEST_OBJ_FILES_XML)
 # compile
 #
 # stringutils
-$(TESTOBJ_DIR)/StringUtils.o: $(SRC_DIR)/StringUtils.cpp
+$(TESTOBJ_DIR)/StringUtils.o: $(SRC_DIR)/StringUtils.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/StringUtils.cpp -o $(TESTOBJ_DIR)/StringUtils.o
 
-$(TESTOBJ_DIR)/StringUtilsTest.o: $(TESTSRC_DIR)/StringUtilsTest.cpp
+$(TESTOBJ_DIR)/StringUtilsTest.o: $(TESTSRC_DIR)/StringUtilsTest.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(TESTSRC_DIR)/StringUtilsTest.cpp -o $(TESTOBJ_DIR)/StringUtilsTest.o
 
 
 # stringdatasource
-$(TESTOBJ_DIR)/StringDataSource.o: $(SRC_DIR)/StringDataSource.cpp
+$(TESTOBJ_DIR)/StringDataSource.o: $(SRC_DIR)/StringDataSource.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/StringDataSource.cpp -o $(TESTOBJ_DIR)/StringDataSource.o
 
-$(TESTOBJ_DIR)/StringDataSourceTest.o: $(TESTSRC_DIR)/StringDataSourceTest.cpp
+$(TESTOBJ_DIR)/StringDataSourceTest.o: $(TESTSRC_DIR)/StringDataSourceTest.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(TESTSRC_DIR)/StringDataSourceTest.cpp -o $(TESTOBJ_DIR)/StringDataSourceTest.o
 
 
 # stringdatasink
-$(TESTOBJ_DIR)/StringDataSink.o: $(SRC_DIR)/StringDataSink.cpp
+$(TESTOBJ_DIR)/StringDataSink.o: $(SRC_DIR)/StringDataSink.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/StringDataSink.cpp -o $(TESTOBJ_DIR)/StringDataSink.o
 
-$(TESTOBJ_DIR)/StringDataSinkTest.o: $(TESTSRC_DIR)/StringDataSinkTest.cpp
+$(TESTOBJ_DIR)/StringDataSinkTest.o: $(TESTSRC_DIR)/StringDataSinkTest.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(TESTSRC_DIR)/StringDataSinkTest.cpp -o $(TESTOBJ_DIR)/StringDataSinkTest.o
 
 
 # DSV
-$(TESTOBJ_DIR)/DSVReader.o: $(SRC_DIR)/DSVReader.cpp
+$(TESTOBJ_DIR)/DSVReader.o: $(SRC_DIR)/DSVReader.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/DSVReader.cpp -o $(TESTOBJ_DIR)/DSVReader.o
 
-$(TESTOBJ_DIR)/DSVWriter.o: $(SRC_DIR)/DSVWriter.cpp
+$(TESTOBJ_DIR)/DSVWriter.o: $(SRC_DIR)/DSVWriter.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/DSVWriter.cpp -o $(TESTOBJ_DIR)/DSVWriter.o
 
-$(TESTOBJ_DIR)/DSVTest.o: $(TESTSRC_DIR)/DSVTest.cpp
+$(TESTOBJ_DIR)/DSVTest.o: $(TESTSRC_DIR)/DSVTest.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(TESTSRC_DIR)/DSVTest.cpp -o $(TESTOBJ_DIR)/DSVTest.o
 
 
 # XML
-$(TESTOBJ_DIR)/XMLReader.o: $(SRC_DIR)/XMLReader.cpp
+$(TESTOBJ_DIR)/XMLReader.o: $(SRC_DIR)/XMLReader.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/XMLReader.cpp -o $(TESTOBJ_DIR)/XMLReader.o
 
-$(TESTOBJ_DIR)/XMLWriter.o: $(SRC_DIR)/XMLWriter.cpp
+$(TESTOBJ_DIR)/XMLWriter.o: $(SRC_DIR)/XMLWriter.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(SRC_DIR)/XMLWriter.cpp -o $(TESTOBJ_DIR)/XMLWriter.o
 
-$(TESTOBJ_DIR)/XMLTest.o: $(TESTSRC_DIR)/XMLTest.cpp
+$(TESTOBJ_DIR)/XMLTest.o: $(TESTSRC_DIR)/XMLTest.cpp | directories
 	$(CXX) $(TEST_CFLAGS) $(TEST_CPPFLAGS) $(DEFINES) $(INCLUDES) -c $(TESTSRC_DIR)/XMLTest.cpp -o $(TESTOBJ_DIR)/XMLTest.o
 
 
