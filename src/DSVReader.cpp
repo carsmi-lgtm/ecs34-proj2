@@ -3,7 +3,6 @@
 /*
 STILL NEED TO ADD:
     carriage returns /r in ReadRow
-    handle double quotes in ReadRow
 */
 
 struct CDSVReader::SImplementation{
@@ -31,14 +30,26 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
     if (DImplementation->DEnd) return false; // if end of row cannot read row 
 
     char c;
+    char nextchar;
     bool WithinQuotes = false;
     std::string Str;
 
     while (DImplementation->DSource->Get(c)){  // read next character while chars left in data source
         
-        // flip boolean quotes if quotes are read
+        // flip boolean quotes if quotes are read, also convert two double quotes to one
         if (c == '"'){
-            WithinQuotes = !WithinQuotes;
+            if (WithinQuotes == true){
+                if (DImplementation->DSource->Peek(nextchar) && nextchar == '"'){
+                    DImplementation->DSource->Get(nextchar);
+                    Str += '"';
+                }
+                else{
+                    WithinQuotes = false;
+                }
+            }
+            else{
+                WithinQuotes = true;
+            }
         }
 
         // if in quotes and delimeter is read, add string to vector and clear Str
