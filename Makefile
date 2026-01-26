@@ -20,7 +20,7 @@ LDFLAGS =
 
 TEST_CFLAGS = $(CFLAGS) -O0 -g --coverage
 TEST_CPPFLAGS = $(CPPFLAGS) -fno-inline
-TEST_LDFLAGS = $(LDFLAGS) -lgtest_main -lgtest  -lpthread
+TEST_LDFLAGS = $(LDFLAGS) -lgtest_main -lgtest  -lpthread -lexpat
 
 
 # test object files
