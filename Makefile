@@ -28,7 +28,7 @@ TEST_OBJ_FILES_STRUTILS = $(TESTOBJ_DIR)/StringUtilsTest.o $(TESTOBJ_DIR)/String
 TEST_OBJ_FILES_STRDTASRC = $(TESTOBJ_DIR)/StringDataSourceTest.o $(TESTOBJ_DIR)/StringDataSource.o
 TEST_OBJ_FILES_STRDTASINK = $(TESTOBJ_DIR)/StringDataSinkTest.o $(TESTOBJ_DIR)/StringDataSink.o
 TEST_OBJ_FILES_DSV = $(TESTOBJ_DIR)/DSVTest.o $(TESTOBJ_DIR)/DSVReader.o $(TESTOBJ_DIR)/DSVWriter.o $(TESTOBJ_DIR)/StringDataSource.o $(TESTOBJ_DIR)/StringDataSink.o
-TEST_OBJ_FILES_XML = $(TESTOBJ_DIR)/XMLTest.o $(TESTOBJ_DIR)/XMLReader.o $(TESTOBJ_DIR)/XMLWriter.o
+TEST_OBJ_FILES_XML = $(TESTOBJ_DIR)/XMLTest.o $(TESTOBJ_DIR)/XMLReader.o $(TESTOBJ_DIR)/XMLWriter.o $(TESTOBJ_DIR)/StringDataSource.o $(TESTOBJ_DIR)/StringDataSink.o
 
 # test executables
 TEST_TARGET_STRUTILS = $(TESTBIN_DIR)/teststrutils
