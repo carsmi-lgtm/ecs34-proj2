@@ -27,7 +27,7 @@ TEST_LDFLAGS = $(LDFLAGS) -lgtest_main -lgtest  -lpthread
 TEST_OBJ_FILES_STRUTILS = $(TESTOBJ_DIR)/StringUtilsTest.o $(TESTOBJ_DIR)/StringUtils.o
 TEST_OBJ_FILES_STRDTASRC = $(TESTOBJ_DIR)/StringDataSourceTest.o $(TESTOBJ_DIR)/StringDataSource.o
 TEST_OBJ_FILES_STRDTASINK = $(TESTOBJ_DIR)/StringDataSinkTest.o $(TESTOBJ_DIR)/StringDataSink.o
-TEST_OBJ_FILES_DSV = $(TESTOBJ_DIR)/DSVTest.o $(TESTOBJ_DIR)/DSVReader.o $(TESTOBJ_DIR)/DSVWriter.o
+TEST_OBJ_FILES_DSV = $(TESTOBJ_DIR)/DSVTest.o $(TESTOBJ_DIR)/DSVReader.o $(TESTOBJ_DIR)/DSVWriter.o $(TESTOBJ_DIR)/StringDataSource.o $(TESTOBJ_DIR)/StringDataSink.o
 TEST_OBJ_FILES_XML = $(TESTOBJ_DIR)/XMLTest.o $(TESTOBJ_DIR)/XMLReader.o $(TESTOBJ_DIR)/XMLWriter.o
 
 # test executables
