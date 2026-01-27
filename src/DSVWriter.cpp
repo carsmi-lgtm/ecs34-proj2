@@ -38,30 +38,28 @@ bool CDSVWriter::WriteRow(const std::vector<std::string> &row){
         
         // start quotes
         if (UseQuotes == true){
-            DImplementation->DSink->Put('"');
+            if (!DImplementation->DSink->Put('"')) return false;
         }
 
         // write characters to cell
         for (char c : Str){
             if (c == '"'){
-                DImplementation->DSink->Put('"'); // escape quotes by adding extra quote
+                if (!DImplementation->DSink->Put('"')) return false; // escape quotes by adding extra quote
             }
-            DImplementation->DSink->Put(c);
+            if (!DImplementation->DSink->Put(c)) return false;
         }
 
         // end quotes
         if (UseQuotes == true){
-            DImplementation->DSink->Put('"');
+            if (!DImplementation->DSink->Put('"')) return false;
         }
 
         // delimiter between cells
-        if (i != row.size()){
-            DImplementation->DSink->Put(delim);
+        if (i+1 < row.size()){
+            if (!DImplementation->DSink->Put(delim)) return false;
         }
-
-        return DImplementation->DSink->Put('\n');
-
     }
 
-    return false;
+    if (!DImplementation->DSink->Put('\n')) return false; // newline after entire row
+    return true;
 }

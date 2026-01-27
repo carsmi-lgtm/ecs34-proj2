@@ -41,7 +41,7 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
             if (WithinQuotes == true){
                 if (DImplementation->DSource->Peek(nextchar) && nextchar == '"'){
                     DImplementation->DSource->Get(nextchar);
-                    Str += '"';
+                    Str += '\"';
                 }
                 else{
                     WithinQuotes = false;
@@ -60,9 +60,12 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
 
         // if in quotes and newline is read, add string to vector and clear Str, return true (full row read)
         else if (WithinQuotes == false && c == '\n'){
-            row.push_back(Str);
-            Str.clear();
-            return true;
+            if (Str.empty()) return true;
+            else{
+                row.push_back(Str);
+                Str.clear();
+                return true;
+            }
         }
 
         // otherwise add character to Str for current cell
