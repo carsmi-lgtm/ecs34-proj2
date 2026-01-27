@@ -60,12 +60,8 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
 
         // if in quotes and newline is read, add string to vector and clear Str, return true (full row read)
         else if (WithinQuotes == false && c == '\n'){
-            if (Str.empty()) return true;
-            else{
-                row.push_back(Str);
-                Str.clear();
-                return true;
-            }
+            if (!Str.empty() || !row.empty()) row.push_back(Str);
+            return true;
         }
 
         // otherwise add character to Str for current cell
