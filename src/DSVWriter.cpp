@@ -10,6 +10,9 @@ CDSVWriter::CDSVWriter(std::shared_ptr< CDataSink > sink, char delimiter, bool q
     DImplementation->DSink = sink;
     DImplementation->DDelimiter = delimiter;
     DImplementation->DQuoteAll = quoteall;
+    if (DImplementation->DDelimiter == '"') {
+        DImplementation->DDelimiter = ',';   
+    }
 }
 
 CDSVWriter::~CDSVWriter() = default;
@@ -17,16 +20,15 @@ CDSVWriter::~CDSVWriter() = default;
 bool CDSVWriter::WriteRow(const std::vector<std::string> &row){
 
     char delim = DImplementation->DDelimiter;
-    
-    // delimiter specified as double quote becomes a comma
-    if (delim == '"'){
-        delim = ',';
-    }
 
     for (size_t i = 0; i < row.size(); ++i){
         std::string Str = row[i];
-
+        
+        
         bool UseQuotes = false;
+        if (!DImplementation->DQuoteAll) {
+            bool UseQuotes = true;
+        }
 
         // flip UseQuotes to true if encounter delimeter or quote or newline
         for (char c : Str){

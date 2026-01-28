@@ -46,10 +46,20 @@ TEST(DSVReader, TestReadRow_emptycells){
     EXPECT_EQ(row.size(), 2);
 }
 
-/* figure this out
+TEST(DSVReader, TestReadRow_doublequotedelim){
+    auto src = std::make_shared< CStringDataSource >("Hello,World\n");
+    CDSVReader reader1(src, '"');
+
+    std::vector<std::string> row;
+    ASSERT_TRUE(reader1.ReadRow(row));
+    EXPECT_EQ(row[0], "Hello");
+    EXPECT_EQ(row[1], "World");
+    EXPECT_EQ(row.size(), 2);
+}
+
 
 TEST(DSVReader, TestReadRow_doublequoteincell){
-    auto src = std::make_shared< CStringDataSource >("\"Say ""Hello""\", \"World!\n\"");
+    auto src = std::make_shared< CStringDataSource >("\"Say \"\"Hello\"\"\",World!\n");
     CDSVReader reader1(src, ',');
 
     std::vector<std::string> row;
@@ -57,8 +67,40 @@ TEST(DSVReader, TestReadRow_doublequoteincell){
     EXPECT_EQ(row[0], "Say \"Hello\"");
     EXPECT_EQ(row[1], "World!");
     EXPECT_EQ(row.size(), 2);
-    
-}*/
+}
+
+TEST(DSVReader, TestReadRow_leadingdelim){
+    auto src = std::make_shared< CStringDataSource >(",a,b\n");
+    CDSVReader reader1(src, ',');
+
+    std::vector<std::string> row;
+    ASSERT_TRUE(reader1.ReadRow(row));
+    EXPECT_EQ(row[0], "");
+    EXPECT_EQ(row[1], "a");
+    EXPECT_EQ(row[2], "b");
+    EXPECT_EQ(row.size(), 3);
+}
+
+TEST(DSVReader, TestReadRow_trailingdelim){
+    auto src = std::make_shared< CStringDataSource >("a,b,\n");
+    CDSVReader reader1(src, ',');
+
+    std::vector<std::string> row;
+    ASSERT_TRUE(reader1.ReadRow(row));
+    EXPECT_EQ(row[0], "a");
+    EXPECT_EQ(row[1], "b");
+    EXPECT_EQ(row[2], "");
+    EXPECT_EQ(row.size(), 3);
+}
+
+TEST(DSVReader, TestReadRow_emptysource){
+    auto src = std::make_shared< CStringDataSource >("");
+    CDSVReader reader1(src, ',');
+
+    std::vector<std::string> row;
+    EXPECT_FALSE(reader1.ReadRow(row));
+    EXPECT_TRUE(row.empty());
+}
 
 TEST(DSVReader, End){
     auto src = std::make_shared< CStringDataSource >("Hello,World,!\n");
@@ -102,4 +144,31 @@ TEST(DSVWriter, TestWriteRow_doublequotedelim){
     std::vector<std::string> row = {"a", "b", "c", "d"};
     ASSERT_TRUE(writer1.WriteRow(row));
     EXPECT_EQ(sink->String(), "a,b,c,d\n");
+}
+
+TEST(DSVWriter, TestWriteRow_trailingdelim){
+    auto sink = std::make_shared< CStringDataSink >();
+    CDSVWriter writer1(sink, ',', false);
+
+    std::vector<std::string> row = {"a", "b", ""};
+    ASSERT_TRUE(writer1.WriteRow(row));
+    EXPECT_EQ(sink->String(), "a,b,\n");
+}
+
+TEST(DSVWriter, TestWriteRow_leadingdelim){
+    auto sink = std::make_shared< CStringDataSink >();
+    CDSVWriter writer1(sink, ',', false);
+
+    std::vector<std::string> row = {"","a", "b"};
+    ASSERT_TRUE(writer1.WriteRow(row));
+    EXPECT_EQ(sink->String(), ",a,b\n");
+}
+
+TEST(DSVWriter, TestWriteRow_doublequotesincells){
+    auto sink = std::make_shared< CStringDataSink >();
+    CDSVWriter writer1(sink, ',', false);
+
+    std::vector<std::string> row = {"Say \"Hello\"", "World"};
+    ASSERT_TRUE(writer1.WriteRow(row));
+    EXPECT_EQ(sink->String(), "\"Say \"\"Hello\"\"\",World\n");
 }

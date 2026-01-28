@@ -16,6 +16,9 @@ CDSVReader::CDSVReader(std::shared_ptr< CDataSource > src, char delimiter) : DIm
     DImplementation->DSource = src;
     DImplementation->DDelimiter = delimiter;
     DImplementation->DEnd = false;
+    if (DImplementation->DDelimiter == '"') {
+        DImplementation->DDelimiter = ',';   
+    }
 }
 
 CDSVReader::~CDSVReader() = default;
@@ -52,12 +55,21 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
             }
         }
 
-        // if in quotes and delimeter is read, add string to vector and clear Str
+        // delimeter is read, add string to vector and clear Str
         else if (WithinQuotes == false && DImplementation->DDelimiter == c){
             row.push_back(Str);
             Str.clear();
+            char next;
+            if (!DImplementation->DSource->Peek(next)){
+                row.push_back(Str);
+                DImplementation->DEnd = true;
+                return true;
+            }
         }
-
+        
+        // handle carriage return
+        else if (c == '\r') continue;
+        
         // if in quotes and newline is read, add string to vector and clear Str, return true (full row read)
         else if (WithinQuotes == false && c == '\n'){
             if (!Str.empty() || !row.empty()) row.push_back(Str);
