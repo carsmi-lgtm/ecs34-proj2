@@ -5,15 +5,15 @@
 #include "StringDataSource.h"
 
 TEST(XMLReader, InitConstruction){
-    std::shared_ptr<CDataSource> DataSource = std::make_shared<CStringDataSource>("<hello></hello>");
-    CXMLReader reader(DataSource);
+    auto src = std::make_shared<CStringDataSource>("<hello></hello>");
+    CXMLReader reader(src);
 
     EXPECT_FALSE(reader.End());
 }
 
-TEST(XMLReader, ReadEntity){
-    std::shared_ptr<CDataSource> DataSource = std::make_shared<CStringDataSource>("<hello></hello>");
-    CXMLReader reader(DataSource);
+TEST(XMLReader, TestReadEntity){
+    auto src = std::make_shared<CStringDataSource>("<hello></hello>");
+    CXMLReader reader(src);
 
     SXMLEntity entity;
     ASSERT_TRUE(reader.ReadEntity(entity, false));
@@ -26,27 +26,29 @@ TEST(XMLReader, ReadEntity){
 }
 
 TEST(XMLReader, ReadEntitySkipCData){
-    std::shared_ptr<CDataSource> DataSource = std::make_shared<CStringDataSource>("<hello>world</hello>");
-    CXMLReader reader(DataSource);
+    auto src = std::make_shared<CStringDataSource>("<hello>world</hello>");
+    CXMLReader reader(src);
 
     SXMLEntity entity;
     ASSERT_TRUE(reader.ReadEntity(entity, true));
     EXPECT_EQ(entity.DType, SXMLEntity::EType::StartElement);
+    EXPECT_EQ(entity.DNameData, "hello");
     
     ASSERT_TRUE(reader.ReadEntity(entity, true));
     EXPECT_EQ(entity.DType, SXMLEntity::EType::EndElement);
+    EXPECT_EQ(entity.DNameData, "hello");
 }
 
 TEST(XMLWriter, InitConstruction){
-    std::shared_ptr<CStringDataSink> DataSink = std::make_shared<CStringDataSink>();
-    CXMLWriter writer(DataSink);
+    auto sink = std::make_shared<CStringDataSink>();
+    CXMLWriter writer(sink);
 
-    EXPECT_EQ(DataSink->String(), "");
+    EXPECT_EQ(sink->String(), "");
 }
 
 TEST(XMLWriter, StartAndEndElement){
-    std::shared_ptr<CStringDataSink> DataSink  = std::make_shared<CStringDataSink>();
-    CXMLWriter writer(DataSink);
+    auto sink  = std::make_shared<CStringDataSink>();
+    CXMLWriter writer(sink);
 
     SXMLEntity start;
     start.DType = SXMLEntity::EType::StartElement;
@@ -58,12 +60,12 @@ TEST(XMLWriter, StartAndEndElement){
 
     ASSERT_TRUE(writer.WriteEntity(start));
     ASSERT_TRUE(writer.WriteEntity(end));
-    EXPECT_EQ(DataSink->String(), "<hello></hello>");
+    EXPECT_EQ(sink->String(), "<hello></hello>");
 }
 
 TEST(XMLWriter, Flush){
-    std::shared_ptr<CStringDataSink> DataSink = std::make_shared<CStringDataSink>();
-    CXMLWriter writer(DataSink);
+    auto sink = std::make_shared<CStringDataSink>();
+    CXMLWriter writer(sink);
 
     SXMLEntity start;
     start.DType = SXMLEntity::EType::StartElement;
@@ -71,5 +73,5 @@ TEST(XMLWriter, Flush){
 
     ASSERT_TRUE(writer.WriteEntity(start));
     ASSERT_TRUE(writer.Flush());
-    EXPECT_EQ(DataSink->String(), "<hello></hello>");
+    EXPECT_EQ(sink->String(), "<hello></hello>");
 }
