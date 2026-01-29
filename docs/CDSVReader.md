@@ -30,7 +30,7 @@ bool ReadRow(std::vector<std::string> &row);
 Behavior:
 - returns boolean value of whether or not the end of the row has been reached; false the source is empty.
 - parameters: `row` is an empty vector, strings (separated by delimiter) from `src` are pushed to the vector. These strings individually represent cells of the DSV file. 
-- double quotes inside cells are converted to single quotes `""`->`"`
+- two double quotes inside cells represent a single double quote `""`->`"`
 - if within quotes, `\n` and `delimiter` characters are treated as normal chars within the cell
 - a row with just the `\n` character becomes a vector of size 0 and ReadRow returns true.
 - a completely empty source does not create a vector and ReadRow returns false.

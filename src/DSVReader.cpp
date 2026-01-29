@@ -1,10 +1,5 @@
 #include "DSVReader.h"
 
-/*
-STILL NEED TO ADD:
-    carriage returns /r in ReadRow
-*/
-
 struct CDSVReader::SImplementation{
     std::shared_ptr<CDataSource> DSource;
     char DDelimiter;
@@ -69,7 +64,7 @@ bool CDSVReader::ReadRow(std::vector<std::string> &row){
         
         // handle carriage return
         else if (c == '\r') continue;
-        
+
         // if in quotes and newline is read, add string to vector and clear Str, return true (full row read)
         else if (WithinQuotes == false && c == '\n'){
             if (!Str.empty() || !row.empty()) row.push_back(Str);
