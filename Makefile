@@ -12,11 +12,12 @@ TESTOBJ_DIR = ./testobj
 TESTBIN_DIR = ./testbin
 TESTCOVER_DIR = ./htmlconv
 
+PKGS = expat
 DEFINES =
 INCLUDES += -I $(INC_DIR)
-CFLAGS += 
+CFLAGS += `pkg_config -cflags $(PKGS)`
 CPPFLAGS += -std=c++20
-LDFLAGS = 
+LDFLAGS = `pkg_config -libs $(PKGS)`
 
 TEST_CFLAGS = $(CFLAGS) -O0 -g --coverage
 TEST_CPPFLAGS = $(CPPFLAGS) -fno-inline
